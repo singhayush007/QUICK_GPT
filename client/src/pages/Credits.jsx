@@ -1,74 +1,140 @@
-import React, { useEffect, useState } from 'react'
-import { dummyPlans } from '../assets/assets'
-import Loading from './Loading'
-import { useAppContext } from '../context/AppContext'
-import toast from 'react-hot-toast'
+import React, { useEffect, useState } from "react";
+import Loading from "./Loading";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
+
+// Load Razorpay script dynamically
+const loadRazorpayScript = () =>
+  new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
 
 const Credits = () => {
-
-  const [plans, setPlans] = useState([])
-  const [loading, setLoading] = useState(true)
-  const {token, axios } = useAppContext()
+  const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { token, axios, user, fetchUser } = useAppContext();
 
   const fetchPlans = async () => {
-   try {
-    const { data } = await axios.get('/api/credit/plan', {
-      headers: { Authorization: token }
-    })
-    if (data.success){
-      setPlans(data.plans)
-    }else{
-      toast.error(data.message || 'Failed to fetch plans.')
+    try {
+      const { data } = await axios.get("/api/credit/plan", {
+        headers: { Authorization: token },
+      });
+      if (data.success) setPlans(data.plans);
+      else toast.error(data.message || "Failed to fetch plans.");
+    } catch (error) {
+      toast.error(error.message);
     }
-   } catch (error) {
-    toast.error(error.message)
-   }
-   setLoading(false)
-  }
+    setLoading(false);
+  };
 
-      const purchasePlan = async (planId) => {
-        try {
-          const { data } = await axios.post('/api/credit/purchase', {planId}, {headers: { Authorization: token }})
-          if (data.success) {
-            window.location.href = data.url
-          }else{
-            toast.error(data.message)
+  const purchasePlan = async (planId) => {
+    try {
+      const { data } = await axios.post(
+        "/api/credit/purchase",
+        { planId },
+        { headers: { Authorization: token } }
+      );
+
+      if (!data.success) return toast.error(data.message);
+
+      const loaded = await loadRazorpayScript();
+      if (!loaded) return toast.error("Razorpay SDK failed to load.");
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: data.amount,
+        currency: data.currency,
+        name: "QuickGPT",
+        description: `Purchase ${planId} Plan`,
+        order_id: data.orderId,
+        handler: async function (response) {
+          try {
+            await axios.post(
+              "/api/credit/verify",
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                transactionId: data.transactionId,
+              },
+              { headers: { Authorization: token } }
+            );
+            toast.success("Payment successful! Credits added.");
+            fetchUser?.();
+          } catch (err) {
+            toast.error("Payment verification failed.");
+            console.error(err);
           }
-        } catch (error) {
-          toast.error(error.message)
-        }
-      }
+        },
+        prefill: { name: user?.name || "", email: user?.email || "" },
+        theme: { color: "#7e22ce" },
+      };
 
-  useEffect(()=>{
-    fetchPlans()
-  },[])
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
-  if(loading) return <Loading />
+  useEffect(() => {
+    fetchPlans();
+  }, []);
+
+  if (loading) return <Loading />;
 
   return (
-    <div className='max-w-7xl h-screen overflow-y-scroll mx-auto px-4 sm:px-6 lg:px-8 py-12'>
-      <h2 className='text-3xl font-semibold text-center mb-10 xl:mt-30 text-gray-800 dark:text-white'>Credit Plans</h2>
-
-      <div className='flex flex-wrap justify-center gap-8'>
-        {plans.map((plan)=>(
-          <div key={plan._id} className={`border border-gray-200 dark:border-purple-700 rounded-lg shadow hover:shadow-lg transition-shadow p-6 min-w-[300px] flex flex-col ${plan._id === "pro" ? "bg-purple-50 dark:bg-purple-900" : "bg-white dark:bg-transparent"}`}>
-            <div className='flex-1'>
-              <h3 className='text-xl font-semibold text-gray-900 dark:text-white mb-2'>{plan.name}</h3>
-              <p className='text-2xl font-bold text-purple-600 dark:text-purple-300 mb-4'>${plan.price}
-                <span className='text-base font-normal text-gray-600 dark:text-purple-200'>{' '}/ {plan.credits} credits</span>
+    <div className="max-w-7xl h-screen overflow-y-scroll mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 className="text-3xl font-semibold text-center mb-10 xl:mt-30 text-gray-800 dark:text-white">
+        Credit Plans
+      </h2>
+      <div className="flex flex-wrap justify-center gap-8">
+        {plans.map((plan) => (
+          <div
+            key={plan._id}
+            className={`border border-gray-200 dark:border-purple-700 rounded-lg shadow hover:shadow-lg transition-shadow p-6 min-w-[300px] flex flex-col ${
+              plan._id === "pro"
+                ? "bg-purple-50 dark:bg-purple-900"
+                : "bg-white dark:bg-transparent"
+            }`}
+          >
+            <div className="flex-1">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                {plan.name}
+              </h3>
+              <p className="text-2xl font-bold text-purple-600 dark:text-purple-300 mb-4">
+                ₹{plan.price}
+                <span className="text-base font-normal text-gray-600 dark:text-purple-200">
+                  {" "}
+                  / {plan.credits} credits
+                </span>
               </p>
-              <ul className='list-disc list-inside text-sm text-gray-700 dark:text-purple-200 space-y-1'>
-                {plan.features.map((feature, index)=>(
+              <ul className="list-disc list-inside text-sm text-gray-700 dark:text-purple-200 space-y-1">
+                {plan.features.map((feature, index) => (
                   <li key={index}>{feature}</li>
                 ))}
               </ul>
             </div>
-            <button onClick={()=> toast.promise(purchasePlan(plan._id), {loading: 'Processing...'})} className='mt-6 bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-medium py-2 rounded transition-colors cursor-pointer'>Buy Now</button>
+            <button
+              onClick={() =>
+                toast.promise(purchasePlan(plan._id), {
+                  loading: "Processing...",
+                })
+              }
+              className="mt-6 bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-medium py-2 rounded transition-colors cursor-pointer"
+            >
+              Buy Now
+            </button>
           </div>
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Credits
+export default Credits;

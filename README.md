@@ -24,40 +24,41 @@ The app integrates **Google Gemini** for text generation and **ImageKit** for AI
 
 ## 💻 Tech Stack
 
-| Technology | Description |
-|-------------|-------------|
-| ![React.js](https://img.shields.io/badge/React.js-61DAFB?style=flat&logo=react&logoColor=black) **React.js** | Frontend library for building dynamic and interactive user interfaces |
-| ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) **Vite** | Next-generation frontend build tool for faster development |
-| ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white) **Tailwind CSS** | Utility-first CSS framework for responsive UI design |
-| ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white) **Node.js** | JavaScript runtime environment for building the backend |
-| ![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white) **Express.js** | Fast, minimal web framework for Node.js |
-| ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white) **MongoDB** | NoSQL database for storing users, chats, and transactions |
-| ![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=flat&logo=mongoose&logoColor=white) **Mongoose** | Elegant MongoDB object modeling for Node.js |
-| ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white) **Axios** | HTTP client for making API requests between frontend & backend |
-| ![BcryptJS](https://img.shields.io/badge/BcryptJS-3385FF?style=flat) **BcryptJS** | Password hashing & encryption for secure authentication |
-| ![CORS](https://img.shields.io/badge/CORS-FFB400?style=flat) **CORS** | Middleware for handling cross-origin requests securely |
-| ![Dotenv](https://img.shields.io/badge/Dotenv-000000?style=flat) **Dotenv** | Loads environment variables from `.env` file |
-| ![JWT](https://img.shields.io/badge/JWT-000000?style=flat&logo=jsonwebtokens&logoColor=white) **jsonwebtoken** | Secure token-based user authentication |
-| ![Razorpay](https://img.shields.io/badge/Razorpay-02042B?style=flat&logo=razorpay&logoColor=00AEEF) **Razorpay** | Online payment gateway for credit purchases |
-| ![ImageKit](https://img.shields.io/badge/ImageKit-1D1D1D?style=flat&logo=imagekit&logoColor=00D9FF) **ImageKit** | Cloud image generation & optimization based on AI prompts |
-| ![Google Gemini](https://img.shields.io/badge/Google_Gemini-4285F4?style=flat&logo=google&logoColor=white) **OpenAI (Gemini)** | AI model integration for text generation |
+| Technology                                                                                                     | Description                                                           |
+| -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| ![React.js](https://img.shields.io/badge/React.js-61DAFB?style=flat&logo=react&logoColor=black)                | Frontend library for building dynamic and interactive user interfaces |
+| ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)                         | Next-generation frontend build tool for faster development            |
+| ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white) | Utility-first CSS framework for responsive UI design                  |
+| ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)                | JavaScript runtime environment for building the backend               |
+| ![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white)          | Fast, minimal web framework for Node.js                               |
+| ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)                | NoSQL database for storing users, chats, and transactions             |
+| ![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=flat&logo=mongoose&logoColor=white)             | Elegant MongoDB object modeling for Node.js                           |
+| ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white)                      | HTTP client for making API requests between frontend & backend        |
+| ![BcryptJS](https://img.shields.io/badge/BcryptJS-3385FF?style=flat)                                           | Password hashing & encryption for secure authentication               |
+| ![CORS](https://img.shields.io/badge/CORS-FFB400?style=flat)                                                   | Middleware for handling cross-origin requests securely                |
+| ![Dotenv](https://img.shields.io/badge/Dotenv-000000?style=flat)                                               | Loads environment variables from `.env` file                          |
+| ![JWT](https://img.shields.io/badge/JWT-000000?style=flat&logo=jsonwebtokens&logoColor=white)                  | Secure token-based user authentication                                |
+| ![Razorpay](https://img.shields.io/badge/Razorpay-02042B?style=flat&logo=razorpay&logoColor=00AEEF)            | Online payment gateway for credit purchases                           |
+| ![ImageKit](https://img.shields.io/badge/ImageKit-1D1D1D?style=flat&logo=imagekit&logoColor=00D9FF)            | Cloud image generation & optimization based on AI prompts             |
+| ![Google Gemini](https://img.shields.io/badge/Google_Gemini-4285F4?style=flat&logo=google&logoColor=white)     | AI model integration for text generation                              |
 
 ---
+
 ## 🚀 Features
 
-| Feature | Description |
-|----------|-------------|
-| 🧍‍♂️ **User Authentication** | Secure user signup, login, and JWT-based authentication with password hashing using **bcryptjs** |
-| 💬 **AI Text Generation** | Generate intelligent and creative text replies powered by **Google Gemini AI** |
-| 🖼️ **AI Image Generation** | Create stunning images from text prompts using **ImageKit AI** |
-| 💳 **Credit System** | Each action consumes credits — users can purchase more credits via **Razorpay payment gateway** |
-| 🧾 **Razorpay Integration** | Seamless online payment flow with webhook support for payment verification |
-| 📦 **Plan Management** | Multiple subscription plans with different credit limits and features |
-| 📡 **Real-time Communication** | Fast API communication between client and server via **Axios** and **Express.js** |
-| 🧰 **Admin & User Management** | Store and manage user data, chats, and transactions in **MongoDB** using **Mongoose** |
-| 🖥️ **Modern UI/UX** | Built with **React.js** and **Tailwind CSS** for a clean, responsive, and interactive user interface |
-| 🌐 **Environment Configuration** | Securely manage keys and configurations using **dotenv** |
-| ☁️ **Deployment Ready** | Fully deployable MERN stack app with environment variables and production configurations |
+| Feature                          | Description                                                                                          |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| 🧍‍♂️ **User Authentication**       | Secure user signup, login, and JWT-based authentication with password hashing using **bcryptjs**     |
+| 💬 **AI Text Generation**        | Generate intelligent and creative text replies powered by **Google Gemini AI**                       |
+| 🖼️ **AI Image Generation**       | Create stunning images from text prompts using **ImageKit AI**                                       |
+| 💳 **Credit System**             | Each action consumes credits — users can purchase more credits via **Razorpay payment gateway**      |
+| 🧾 **Razorpay Integration**      | Seamless online payment flow with webhook support for payment verification                           |
+| 📦 **Plan Management**           | Multiple subscription plans with different credit limits and features                                |
+| 📡 **Real-time Communication**   | Fast API communication between client and server via **Axios** and **Express.js**                    |
+| 🧰 **Admin & User Management**   | Store and manage user data, chats, and transactions in **MongoDB** using **Mongoose**                |
+| 🖥️ **Modern UI/UX**              | Built with **React.js** and **Tailwind CSS** for a clean, responsive, and interactive user interface |
+| 🌐 **Environment Configuration** | Securely manage keys and configurations using **dotenv**                                             |
+| ☁️ **Deployment Ready**          | Fully deployable MERN stack app with environment variables and production configurations             |
 
 ---
 
