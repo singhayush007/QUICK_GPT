@@ -131,7 +131,8 @@ npm install
    JWT_SECRET=your_jwt_secret
 
    # MongoDB Connection URI
-   MONGODB_URI=mongodb+srv://your_username:your_password@your_cluster.mongodb.net/your_database?retryWrites=true&w=majority
+   # Format: mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
+   MONGODB_URI=your_mongodb_connection_string_here
 
    # Google Gemini API (Required for AI text generation)
    GEMINI_API_KEY=your_gemini_api_key
@@ -223,7 +224,9 @@ http://localhost:5173
 JWT_SECRET='your_jwt_secret_here'
 
 # MongoDB
-MONGODB_URI="mongodb+srv://your_username:your_password@your_cluster.mongodb.net/your_database?retryWrites=true&w=majority"
+# MongoDB - Replace with your actual connection string from MongoDB Atlas
+# Format: mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
+MONGODB_URI="your_mongodb_connection_string_here"
 
 # Gemini AI (Required)
 GEMINI_API_KEY=AIzaSy...
