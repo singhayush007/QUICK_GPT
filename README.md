@@ -261,9 +261,40 @@ VITE_SERVER_URL=http://localhost:3000
 
 ---
 
-## 💻 Deployment
+## 💻 Deployment (Client & Server separate on Vercel)
 
-You can deploy this app using Vercel, Docker, or any Node.js hosting platform.
+Deploy **client** and **server** as two separate Vercel projects so the frontend and API have different URLs.
+
+### 1. Deploy Server (Backend) first
+
+1. Go to [vercel.com](https://vercel.com) → **Add New** → **Project**.
+2. Import your repo. Set **Root Directory** to **`server`**.
+3. **Build & Output:** Leave default (no build step) or set Build Command to `echo "no build"` and Output Directory to `.`.
+4. Add **Environment Variables** (Settings → Environment Variables) for Production (and Preview if needed):
+   - `MONGODB_URI`
+   - `JWT_SECRET`
+   - `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` (or Gemini keys if using)
+   - `IMAGEKIT_*` (if using ImageKit)
+   - `RAZORPAY_KEY_SECRET`, and any other keys your server uses
+5. Deploy. Note the server URL, e.g. `https://your-server.vercel.app`.
+
+### 2. Deploy Client (Frontend)
+
+1. **Add New** → **Project** again, same repo.
+2. Set **Root Directory** to **`client`**.
+3. **Build Command:** `npm run build`  
+   **Output Directory:** `dist`
+4. Add **Environment Variables**:
+   - `VITE_SERVER_URL` = your **server** URL (e.g. `https://your-server.vercel.app`)
+   - `VITE_RAZORPAY_KEY_ID` (if client uses it)
+5. Deploy. Your app will run at the client URL; API calls will go to the server URL.
+
+### 3. After deploy
+
+- **Razorpay webhooks:** In Razorpay Dashboard, set webhook URL to `https://your-server.vercel.app/api/razorpay`.
+- **CORS:** Server already uses `cors()`; if you restrict origins later, add your client Vercel URL.
+
+You can also deploy using Vercel CLI from the repo root by running `vercel` once in `server/` and once in `client/` (each with its own project/link).
 
 ## 📄 License
 
