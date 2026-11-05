@@ -21,6 +21,8 @@ export interface PurchaseOrder {
   amount: number;
   currency: string;
   transactionId: string;
+  /** Public Razorpay key id sent by the server together with the order. */
+  keyId?: string;
 }
 
 export interface VerifyPaymentPayload {

@@ -48,6 +48,10 @@ export async function createOrder(userId, planId) {
     amount: order.amount,
     currency: order.currency,
     transactionId: transaction._id,
+    // The PUBLIC key id (rzp_test_… / rzp_live_…, never the secret). Sending it with the order means the
+    // checkout widget can't fail with "Authentication key was missing" just because the client's
+    // VITE_RAZORPAY_KEY_ID is unset or differs from the server's key.
+    keyId: process.env.RAZORPAY_KEY_ID,
   };
 }
 

@@ -7,7 +7,7 @@ import { useAuthStore } from "@/store/authStore";
 import { RAZORPAY_THEME_COLOR } from "../constants/credits.constants";
 import { creditsService } from "../services/credits.service";
 import type { CreditPlan, RazorpaySuccessResponse } from "../types/credits.types";
-import { loadRazorpayScript } from "../util/razorpay.utils";
+import { loadRazorpayScript, resolveCheckoutKey } from "../util/razorpay.utils";
 import { PURCHASE_HISTORY_KEY } from "./UsePurchaseHistoryQuery";
 
 /** Create order -> open Razorpay -> verify signature -> refresh balance + history. */
@@ -22,6 +22,9 @@ export function useRazorpayCheckout() {
     try {
       const order = await creditsService.purchase(plan._id);
       if (!order.success) return void toast.error(order.message);
+
+      const key = resolveCheckoutKey(order.keyId, RAZORPAY_KEY_ID);
+      if (!key) return void toast.error("Payments are not configured: the Razorpay key id is missing.");
 
       if (!(await loadRazorpayScript()) || !window.Razorpay) return void toast.error("Razorpay SDK failed to load.");
 
@@ -39,7 +42,7 @@ export function useRazorpayCheckout() {
       };
 
       new window.Razorpay({
-        key: RAZORPAY_KEY_ID,
+        key,
         amount: order.amount,
         currency: order.currency,
         name: "QuickGPT",
