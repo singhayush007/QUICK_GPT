@@ -1,0 +1,10 @@
+{
+  "name": "QuickGPT",
+  "short_name": "QuickGPT",
+  "description": "AI chat & image studio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08080d",
+  "theme_color": "#08080d",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
