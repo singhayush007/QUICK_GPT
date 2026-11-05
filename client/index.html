@@ -4,10 +4,23 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QuickGPT</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#08080d" />
+    <meta
+      name="description"
+      content="QuickGPT — a fast AI chat & image generation assistant with streaming replies, credits and a community gallery."
+    />
+    <title>QuickGPT — AI Chat & Image Studio</title>
+    <script>
+      // apply the saved theme before first paint (prevents a white flash)
+      try {
+        var t = localStorage.getItem("theme") || "dark";
+        if (t === "dark") document.documentElement.classList.add("dark");
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
