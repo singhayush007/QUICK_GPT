@@ -28,5 +28,5 @@ disabled with a clear message instead of calling the provider with fake credenti
 
 | Variable | Required | Purpose |
 |----------|----------|---------|
-| `VITE_SERVER_URL` | no (`http://localhost:3000`) | API base URL |
+| `VITE_SERVER_URL` | no (`http://localhost:3000`) | API base URL of the deployed server, e.g. `https://your-api.vercel.app`. A trailing slash is stripped automatically. |
 | `VITE_RAZORPAY_KEY_ID` | for payments | Public Razorpay key used by the checkout widget |
