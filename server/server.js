@@ -1,30 +1,13 @@
-import express from "express";
+// ENTRY ONLY: load env, connect the DB, build the app, listen (locally).
+// `dotenv/config` must be imported before the app so env vars are available
+// to every module that reads them at import time.
 import "dotenv/config";
-import cors from "cors";
-import connectDB from "./configs/db.js";
-import userRouter from "./routes/userRoutes.js";
-import chatRouter from "./routes/chatRoutes.js";
-import messageRouter from "./routes/messageRoutes.js";
-import creditRouter from "./routes/creditRoutes.js";
-import { razorpayWebhooks } from "./controllers/webhooks.js";
-
-const app = express();
+import connectDB from "./config/db.js";
+import { createApp } from "./app.js";
 
 await connectDB();
 
-// Razorpay Webhooks
-app.post("/api/razorpay", express.json(), razorpayWebhooks);
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Routes
-app.get("/", (req, res) => res.send("Server is Live!"));
-app.use("/api/user", userRouter);
-app.use("/api/chat", chatRouter);
-app.use("/api/message", messageRouter);
-app.use("/api/credit", creditRouter);
+const app = createApp();
 
 const PORT = process.env.PORT || 3000;
 
@@ -35,4 +18,5 @@ if (process.env.VERCEL !== "1") {
   });
 }
 
+// Vercel imports the app as the serverless handler
 export default app;
